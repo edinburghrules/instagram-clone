@@ -1,17 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import FirebaseContext from "./context/firebase";
+import { firebase, FieldValue } from "./lib/firebase";
+
+console.log(firebase);
 
 ReactDOM.render(
-  <React.StrictMode>
+  <FirebaseContext.Provider value={{ firebase, FieldValue }}>
     <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  </FirebaseContext.Provider>,
+  document.getElementById("root")
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// SEMANTIC COMMIT MESSAGES
+
+// chore: add Oyster build script
+// docs: explain hat wobble
+// feat: add beta sequence
+// fix: remove broken confirmation message
+// refactor: share logic between 4d3d3d3 and flarhgunnstow
+// style: convert tabs to spaces
+// test: ensure Tayne retains clothing
