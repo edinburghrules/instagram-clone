@@ -76,7 +76,7 @@ function Login() {
         </div>
         <div className="flex justify-center items-center flex w-full bg-white p-4 border rounded border-gray-primary">
           <span className="text-sm">Don't have an account? </span>
-          <Link to="/signup" className="text-sm text-blue-medium ml-1">
+          <Link to={ROUTES.SIGN_UP} className="text-sm text-blue-medium ml-1">
             Signup
           </Link>
         </div>

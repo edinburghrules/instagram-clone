@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import FirebaseContext from "../context/firebase";
 import * as ROUTES from "../constants/routes";
+import { doesUsernameExist } from "../services/firebase";
 
 function Signup() {
   const history = useHistory();
@@ -17,10 +18,43 @@ function Signup() {
 
   async function handleSignup(event) {
     event.preventDefault();
+
+    const usernameExists = await doesUsernameExist(username);
+
+    if (!usernameExists) {
+      try {
+        const createdUserResult = await firebase
+          .auth()
+          .createUserWithEmailAndPassword(email, password);
+
+        createdUserResult.user.updateProfile({
+          displayName: username,
+        });
+
+        await firebase.firestore().collection("users").add({
+          userId: createdUserResult.user.uid,
+          username: username.toLowerCase(),
+          fullName: fullname,
+          email: email.toLowerCase(),
+          following: [],
+          dateCreated: Date.now(),
+        });
+
+        history.push(ROUTES.DASHBOARD);
+      } catch (error) {
+        setUsername("");
+        setFullname("");
+        setEmail("");
+        setPassword("");
+        setError(error.message);
+      }
+    } else {
+      setError("Username already exists, please choose another");
+    }
   }
 
   useEffect(() => {
-    document.title = "Login - Instagram";
+    document.title = "Sign up - Instagram";
   }, []);
 
   return (
@@ -31,7 +65,11 @@ function Signup() {
       <div className="flex flex-col w-2/5">
         <div className="flex flex-col items-center bg-white p-4 border rounded border-gray-primary mb-4">
           <h1 className="flex justify-center w-full">
-            <img src="/images/logo.png" className="mt-2 w-6/12 mb-4" />
+            <img
+              src="/images/logo.png"
+              className="mt-2 w-6/12 mb-4"
+              alt="logo"
+            />
           </h1>
 
           {error && <p className="mb-4 text-xs text-red-primary">{error}</p>}
@@ -82,7 +120,7 @@ function Signup() {
         </div>
         <div className="flex justify-center items-center flex w-full bg-white p-4 border rounded border-gray-primary">
           <span className="text-sm">Have an account? </span>
-          <Link to="/login" className="text-sm text-blue-medium ml-1">
+          <Link to={ROUTES.LOGIN} className="text-sm text-blue-medium ml-1">
             Login
           </Link>
         </div>
