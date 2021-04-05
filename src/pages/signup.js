@@ -31,14 +31,18 @@ export default function Signup() {
           displayName: username,
         });
 
-        await firebase.firestore().collection("users").add({
-          userId: createdUserResult.user.uid,
-          username: username.toLowerCase(),
-          fullName: fullname,
-          email: email.toLowerCase(),
-          following: [],
-          dateCreated: Date.now(),
-        });
+        await firebase
+          .firestore()
+          .collection("users")
+          .doc(createdUserResult.user.uid)
+          .set({
+            userId: createdUserResult.user.uid,
+            username: username.toLowerCase(),
+            fullName: fullname,
+            email: email.toLowerCase(),
+            following: [],
+            dateCreated: Date.now(),
+          });
 
         history.push(ROUTES.DASHBOARD);
       } catch (error) {
