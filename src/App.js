@@ -10,6 +10,11 @@ const Dashboard = lazy(() => import("./pages/dashboard"));
 const NotFound = lazy(() => import("./pages/not-found"));
 
 export default function App() {
+  //   useAuthListener returns a user object when the
+  //   auth state from firebase changes e.g. sign in.
+  //   The user object is then passed in as the value to
+  //   UserContext Provider, so all child components have access
+  //   to the user object.
   const { user } = useAuthListener();
 
   return (
@@ -28,4 +33,13 @@ export default function App() {
   );
 }
 
-// 3:00:41
+//
+
+// SEMANTIC COMMIT MESSAGES
+// chore: add Oyster build script
+// docs: explain hat wobble
+// feat: add beta sequence
+// fix: remove broken confirmation message
+// refactor: share logic between 4d3d3d3 and flarhgunnstow
+// style: convert tabs to spaces
+// test: ensure Tayne retains clothing

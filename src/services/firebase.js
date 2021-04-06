@@ -21,8 +21,8 @@ export async function getUserByUserId(userId) {
     if (doc.exists) {
       const user = {
         ...doc.data(),
-        id: doc.id,
       };
+
       return user;
     } else {
       console.log("No such document");

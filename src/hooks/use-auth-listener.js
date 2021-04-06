@@ -1,6 +1,12 @@
 import { useState, useEffect, useContext } from "react";
 import FirebaseContext from "../context/firebase";
 
+/*
+ * useAuthListener hook runs whenever firebase
+ * changes. If there is a user it returns that user.
+ * If there is no user then is return null.
+ */
+
 export default function useAuthListener() {
   const [user, setUser] = useState(null);
   const { firebase } = useContext(FirebaseContext);
