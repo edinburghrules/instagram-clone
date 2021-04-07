@@ -103,7 +103,8 @@ export async function updateFollowedProfilesFollowers(
   }
 }
 
-// Get users timeline photos
+// Get users timeline photos where the userId of the photo
+// appears in the array of usersFollowing.
 export async function getPhotos(userId, userFollowing) {
   try {
     let userFollowedPhotos = [];
