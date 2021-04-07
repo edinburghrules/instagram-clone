@@ -5,12 +5,13 @@ import Suggestions from "./suggestions";
 export default function Sidebar() {
   // useUser returns a user details object from firestore.
   const {
-    user: { username, fullName, userId },
+    user: { username, fullName, userId, following },
   } = useUser();
+
   return (
     <div className="p-4">
       <User username={username} fullname={fullName} />
-      <Suggestions userId={userId} />
+      <Suggestions userId={userId} userFollowing={following} />
     </div>
   );
 }
