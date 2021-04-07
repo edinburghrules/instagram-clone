@@ -119,19 +119,23 @@ export async function getPhotos(userId, userFollowing) {
       userFollowedPhotos.push({ ...doc.data(), docId: doc.id })
     );
 
-    userFollowedPhotos = userFollowedPhotos.map((photo) => {
-      if (photo.likes.includes(userId)) {
+    userFollowedPhotos = await Promise.all(
+      userFollowedPhotos.map(async (photo) => {
+        let userLikedPhoto = false;
+
+        if (photo.likes.includes(userId)) {
+          userLikedPhoto = true;
+        }
+
+        const { username } = await getUserByUserId(photo.userId);
+
         return {
+          username,
+          userLikedPhoto,
           ...photo,
-          liked: true,
         };
-      } else {
-        return {
-          ...photo,
-          liked: false,
-        };
-      }
-    });
+      })
+    );
 
     return { userFollowedPhotos };
   } catch (error) {
