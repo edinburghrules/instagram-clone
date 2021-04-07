@@ -102,3 +102,38 @@ export async function updateFollowedProfilesFollowers(
     console.log("There has been an error updating document: ", error);
   }
 }
+
+// Get users timeline photos
+export async function getPhotos(userId, userFollowing) {
+  try {
+    let userFollowedPhotos = [];
+
+    const result = await firebase
+      .firestore()
+      .collection("photos")
+      .where("userId", "in", userFollowing)
+      .get();
+
+    result.forEach((doc) =>
+      userFollowedPhotos.push({ ...doc.data(), docId: doc.id })
+    );
+
+    userFollowedPhotos = userFollowedPhotos.map((photo) => {
+      if (photo.likes.includes(userId)) {
+        return {
+          ...photo,
+          liked: true,
+        };
+      } else {
+        return {
+          ...photo,
+          liked: false,
+        };
+      }
+    });
+
+    return { userFollowedPhotos };
+  } catch (error) {
+    console.log("Error getting photos: ", error);
+  }
+}
