@@ -142,3 +142,21 @@ export async function getPhotos(userId, userFollowing) {
     console.log("Error getting photos: ", error);
   }
 }
+
+// Toggle liked on a post, if liked is true remove userId to likes array,
+// if liked is false add userId from likes array
+export async function updateUserLikedPhoto(docId, userId, liked) {
+  try {
+    await firebase
+      .firestore()
+      .collection("photos")
+      .doc(docId)
+      .update({
+        likes: liked
+          ? FieldValue.arrayRemove(userId)
+          : FieldValue.arrayUnion(userId),
+      });
+  } catch (error) {
+    console.log("Error updating document: ", error);
+  }
+}
