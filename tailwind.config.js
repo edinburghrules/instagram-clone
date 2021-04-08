@@ -24,6 +24,9 @@ module.exports = {
           primary: "#ed4956",
         },
       },
+      outline: {
+        gray: "2px solid #dbdbdb",
+      },
     },
   },
   variants: {

@@ -7,7 +7,7 @@ export default function Actions({
   docId,
   totalLikes,
   userLikedPhoto,
-  //   handleFocus,
+  handleFocus,
 }) {
   const {
     user: { uid: userId = "" },
@@ -52,10 +52,10 @@ export default function Actions({
             />
           </svg>
           <svg
-            // onClick={handleFocus}
+            onClick={handleFocus}
             onKeyDown={(event) => {
               if (event.key === "Enter") {
-                // handleFocus();
+                handleFocus();
               }
             }}
             className="w-8 text-black-light select-none cursor-pointer"

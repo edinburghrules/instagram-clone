@@ -160,3 +160,18 @@ export async function updateUserLikedPhoto(docId, userId, liked) {
     console.log("Error updating document: ", error);
   }
 }
+
+// Add comment to post
+export async function updateUserCommentedPhoto(docId, newComment) {
+  try {
+    await firebase
+      .firestore()
+      .collection("photos")
+      .doc(docId)
+      .update({
+        comments: FieldValue.arrayUnion(newComment),
+      });
+  } catch (error) {
+    console.log("Error updating document: ", error);
+  }
+}
