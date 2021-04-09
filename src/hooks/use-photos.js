@@ -6,7 +6,9 @@ import { getPhotos } from "../services/firebase";
  * usePhotos hook gets photos from firestore.
  * It gets photos (array) where the user is following the profile
  * who posted the photo. It sorts them so newest photos
- * come first. It return the sorted photos array.
+ * come first. It returns the sorted photos array.
+ *
+ * If the user is not following any profiles, returns null.
  */
 
 export default function usePhotos() {
@@ -15,7 +17,7 @@ export default function usePhotos() {
 
   useEffect(() => {
     async function getTimelinePhotos() {
-      if (user?.following) {
+      if (user?.following?.length > 0) {
         const { userFollowedPhotos } = await getPhotos(
           user.userId,
           user.following
@@ -26,6 +28,8 @@ export default function usePhotos() {
         });
 
         setPhotos(userFollowedPhotos);
+      } else {
+        setPhotos(null);
       }
     }
     getTimelinePhotos();

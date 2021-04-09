@@ -19,12 +19,18 @@ export default function App() {
   //   UserContext Provider, so all child components have access
   //   to the user object.
   const { user } = useAuthListener();
-
   return (
     <UserContext.Provider value={{ user }}>
       <Router>
         <Suspense fallback={<p>Loading...</p>}>
           <Switch>
+            <ProtectedRoute
+              component={Dashboard}
+              user={user}
+              path={ROUTES.DASHBOARD}
+              exact
+            />
+
             <IsUserLoggedIn
               user={user}
               loggedInPath={ROUTES.DASHBOARD}
@@ -39,12 +45,7 @@ export default function App() {
               component={Signup}
             />
 
-            <ProtectedRoute
-              component={Dashboard}
-              user={user}
-              path={ROUTES.DASHBOARD}
-              exact
-            />
+            <Route component={Profile} path={ROUTES.PROFILE} />
 
             <Route path={ROUTES.NOT_FOUND} component={NotFound} />
           </Switch>

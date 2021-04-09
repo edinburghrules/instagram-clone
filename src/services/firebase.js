@@ -32,6 +32,41 @@ export async function getUserByUserId(userId) {
   }
 }
 
+export async function getUserProfileByUsername(username) {
+  try {
+    let user = null;
+
+    const result = await firebase
+      .firestore()
+      .collection("users")
+      .where("username", "==", username)
+      .get();
+
+    result.forEach((doc) => {
+      user = { ...doc.data() };
+    });
+
+    return user;
+  } catch (error) {
+    console.log("Error getting document: ", error);
+  }
+}
+
+// Get a particular profiles photos
+export async function getProfilePhotosByUserId(userId) {
+  try {
+    const result = await firebase
+      .firestore()
+      .collection("photos")
+      .where("userId", "==", userId)
+      .get();
+
+    return result.docs.map((doc) => ({ docId: doc.id, ...doc.data() }));
+  } catch (error) {
+    console.log("Error getting photos: ", error);
+  }
+}
+
 // Gets all user profile documents from users collection not including the signed in users.
 // Filters them to not include profiles that are being followed by signed in user.
 export async function getSuggestedProfiles(userId) {
@@ -63,7 +98,6 @@ export async function updateLoggedInUserFollowing(
   profileId,
   isFollowingProfile
 ) {
-  console.log(userId, profileId, isFollowingProfile);
   try {
     await firebase
       .firestore()
@@ -86,7 +120,6 @@ export async function updateFollowedProfilesFollowers(
   userId,
   isFollowedByUser
 ) {
-  console.log(profileId, userId, isFollowedByUser);
   try {
     await firebase
       .firestore()
@@ -173,5 +206,22 @@ export async function updateUserCommentedPhoto(docId, newComment) {
       });
   } catch (error) {
     console.log("Error updating document: ", error);
+  }
+}
+
+// Check if logged in user is following this profile and return either true or false.
+export async function getIsLoggedInUserFollowingProfile(userId, profileId) {
+  try {
+    const result = await firebase
+      .firestore()
+      .collection("users")
+      .doc(userId)
+      .get();
+
+    if (result.exists) {
+      return result.data().following.includes(profileId) ? true : false;
+    }
+  } catch (error) {
+    console.log("Error: ", error);
   }
 }

@@ -7,12 +7,12 @@ export default function Timeline() {
 
   return (
     <div className="container col-span-2">
-      {photos?.length > 0 ? (
+      {!photos ? (
+        <Skeleton count={4} width={640} height={500} className="mb-5" />
+      ) : (
         photos.map((photoData) => (
           <Post key={photoData.docId} photoData={photoData} />
         ))
-      ) : (
-        <Skeleton className="mb-5" count={4} height={600} width={640} />
       )}
     </div>
   );
