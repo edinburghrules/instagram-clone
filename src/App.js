@@ -8,6 +8,7 @@ import IsUserLoggedIn from "./helpers/is-user-logged-in";
 
 const Login = lazy(() => import("./pages/login"));
 const Signup = lazy(() => import("./pages/signup"));
+const Profile = lazy(() => import("./pages/profile"));
 const Dashboard = lazy(() => import("./pages/dashboard"));
 const NotFound = lazy(() => import("./pages/not-found"));
 
@@ -28,19 +29,23 @@ export default function App() {
               user={user}
               loggedInPath={ROUTES.DASHBOARD}
               path={ROUTES.LOGIN}
-            >
-              <Login />
-            </IsUserLoggedIn>
+              component={Login}
+            />
+
             <IsUserLoggedIn
               user={user}
               loggedInPath={ROUTES.DASHBOARD}
               path={ROUTES.SIGN_UP}
-            >
-              <Signup />
-            </IsUserLoggedIn>
-            <ProtectedRoute user={user} path={ROUTES.DASHBOARD} exact>
-              <Dashboard />
-            </ProtectedRoute>
+              component={Signup}
+            />
+
+            <ProtectedRoute
+              component={Dashboard}
+              user={user}
+              path={ROUTES.DASHBOARD}
+              exact
+            />
+
             <Route path={ROUTES.NOT_FOUND} component={NotFound} />
           </Switch>
         </Suspense>
@@ -49,7 +54,7 @@ export default function App() {
   );
 }
 
-// 5:23:13
+// 7:31:08
 
 // SEMANTIC COMMIT MESSAGES
 // chore: add Oyster build script

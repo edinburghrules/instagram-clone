@@ -2,14 +2,19 @@ import PropTypes from "prop-types";
 import { Route, Redirect } from "react-router-dom";
 
 // Stop logged in user seeing signin or signup page.
-// If we don't have a user, render to child component.
+// If we don't have a user, render passed in component.
 // If we do, redirect them to the dashboard.
-export default function IsUserLoggedIn({ user, loggedInPath, children, rest }) {
+export default function IsUserLoggedIn({
+  user,
+  loggedInPath,
+  component: Component,
+  rest,
+}) {
   return (
     <Route
       {...rest}
       render={() => {
-        if (!user) return children;
+        if (!user) return <Component />;
 
         if (user) return <Redirect to={{ pathname: loggedInPath }} />;
 
