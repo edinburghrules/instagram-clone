@@ -2,7 +2,7 @@ import { useReducer, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 import Header from "./header";
 import { getProfilePhotosByUserId } from "../../services/firebase";
-// import Photos from "./photos";
+import Photos from "./photos";
 
 // Uses the userProfile recieved as props to get all the photos belonging to that userProfile.
 // Photos are them stored in the reducer, along with the user profile, and the total followers
@@ -51,7 +51,7 @@ export default function UserProfile({ userProfile }) {
         followerCount={followerCount}
         setFollowerCount={dispatch}
       />
-      {/* <Photos photos={photosCollection} /> */}
+      <Photos photos={photosCollection} />
     </Fragment>
   );
 }

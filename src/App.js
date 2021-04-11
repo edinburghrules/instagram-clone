@@ -12,12 +12,12 @@ const Profile = lazy(() => import("./pages/profile"));
 const Dashboard = lazy(() => import("./pages/dashboard"));
 const NotFound = lazy(() => import("./pages/not-found"));
 
+//   useAuthListener returns a user object when the
+//   auth state from firebase changes e.g. sign in.
+//   The user object is then passed in as the value to
+//   UserContext Provider, so all child components have access
+//   to the user object.
 export default function App() {
-  //   useAuthListener returns a user object when the
-  //   auth state from firebase changes e.g. sign in.
-  //   The user object is then passed in as the value to
-  //   UserContext Provider, so all child components have access
-  //   to the user object.
   const { user } = useAuthListener();
   return (
     <UserContext.Provider value={{ user }}>
@@ -55,7 +55,7 @@ export default function App() {
   );
 }
 
-// 7:31:08
+// 9:56:46
 
 // SEMANTIC COMMIT MESSAGES
 // chore: add Oyster build script

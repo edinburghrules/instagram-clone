@@ -8,7 +8,7 @@ import { getPhotos } from "../services/firebase";
  * who posted the photo. It sorts them so newest photos
  * come first. It returns the sorted photos array.
  *
- * If the user is not following any profiles, returns null.
+ * If the user is not following any profiles, returns empty array.
  */
 
 export default function usePhotos() {
@@ -29,7 +29,7 @@ export default function usePhotos() {
 
         setPhotos(userFollowedPhotos);
       } else {
-        setPhotos(null);
+        setPhotos([]);
       }
     }
     getTimelinePhotos();
