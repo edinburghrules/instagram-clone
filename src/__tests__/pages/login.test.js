@@ -46,37 +46,32 @@ describe("<Login />", () => {
       </Router>
     );
 
-    await act(async () => {
-      // Set the value of the email address field to 'karl@gmail.com'.
-      await fireEvent.change(getByPlaceholderText("Email address"), {
-        target: { value: "karl@gmail.com" },
-      });
+    // Set the value of the email address field to 'karl@gmail.com'.
+    fireEvent.change(getByPlaceholderText("Email address"), {
+      target: { value: "karl@gmail.com" },
+    });
 
-      // Set the value of the password field to 'password'.
-      await fireEvent.change(getByPlaceholderText("Password"), {
-        target: { value: "password" },
-      });
+    // Set the value of the password field to 'password'.
+    fireEvent.change(getByPlaceholderText("Password"), {
+      target: { value: "password" },
+    });
 
-      // Once email and password have been input, submit.
-      fireEvent.submit(getByTestId("login"));
+    // Once email and password have been input, submit.
+    fireEvent.submit(getByTestId("login"));
 
-      // Once all of the above, expect below to all be truthy.
-      expect(document.title).toEqual("Login - Instagram");
-      expect(succeededToLogin).toHaveBeenCalled();
-      expect(succeededToLogin).toHaveBeenCalledWith(
-        "karl@gmail.com",
-        "password"
+    // Once all of the above, expect below to all be truthy.
+    expect(document.title).toEqual("Login - Instagram");
+    expect(succeededToLogin).toHaveBeenCalled();
+    expect(succeededToLogin).toHaveBeenCalledWith("karl@gmail.com", "password");
+
+    // Wait for succeedToLogin and expect the below.
+    await waitFor(() => {
+      expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.DASHBOARD);
+      expect(getByPlaceholderText("Email address").value).toBe(
+        "karl@gmail.com"
       );
-
-      // Wait for succeedToLogin and expect the below.
-      await waitFor(() => {
-        expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.DASHBOARD);
-        expect(getByPlaceholderText("Email address").value).toBe(
-          "karl@gmail.com"
-        );
-        expect(getByPlaceholderText("Password").value).toBe("password");
-        expect(queryByTestId("error")).toBeFalsy();
-      });
+      expect(getByPlaceholderText("Password").value).toBe("password");
+      expect(queryByTestId("error")).toBeFalsy();
     });
   });
 
@@ -104,33 +99,31 @@ describe("<Login />", () => {
       </Router>
     );
 
-    await act(async () => {
-      // Set the value for the email address field.
-      await fireEvent.change(getByPlaceholderText("Email address"), {
-        target: { value: "karl.com" },
-      });
+    // Set the value for the email address field.
+    fireEvent.change(getByPlaceholderText("Email address"), {
+      target: { value: "karl.com" },
+    });
 
-      // Set the value for the password field.
-      await fireEvent.change(getByPlaceholderText("Password"), {
-        target: { value: "password" },
-      });
+    // Set the value for the password field.
+    fireEvent.change(getByPlaceholderText("Password"), {
+      target: { value: "password" },
+    });
 
-      // Submit once the above is done.
-      fireEvent.submit(getByTestId("login"));
+    // Submit once the above is done.
+    fireEvent.submit(getByTestId("login"));
 
-      // Assertions after the above has been done.
-      expect(document.title).toEqual("Login - Instagram");
-      expect(failToLogin).toHaveBeenCalled();
-      expect(failToLogin).toHaveBeenCalledWith("karl.com", "password");
-      expect(failToLogin).rejects.toThrow("Cannot sign in");
+    // Assertions after the above has been done.
+    expect(document.title).toEqual("Login - Instagram");
+    expect(failToLogin).toHaveBeenCalled();
+    expect(failToLogin).toHaveBeenCalledWith("karl.com", "password");
+    expect(failToLogin).rejects.toThrow("Cannot sign in");
 
-      // Assertions for falied login.
-      await waitFor(() => {
-        expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.DASHBOARD);
-        expect(getByPlaceholderText("Email address").value).toBe("");
-        expect(getByPlaceholderText("Password").value).toBe("");
-        expect(queryByTestId("error")).toBeTruthy();
-      });
+    // Assertions for failed login.
+    await waitFor(() => {
+      expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.DASHBOARD);
+      expect(getByPlaceholderText("Email address").value).toBe("");
+      expect(getByPlaceholderText("Password").value).toBe("");
+      expect(queryByTestId("error")).toBeTruthy();
     });
   });
 });

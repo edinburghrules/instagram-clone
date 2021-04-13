@@ -10,7 +10,6 @@ export default function IsUserLoggedIn({
   component: Component,
   rest,
 }) {
-  console.log(user);
   return (
     <Route
       {...rest}

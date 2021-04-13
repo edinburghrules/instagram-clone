@@ -8,6 +8,8 @@ export default function Header() {
   const { firebase } = useContext(FirebaseContext);
   const { user } = useContext(UserContext);
 
+  // console.log("FIREBASE: ", firebase, "USER: ", user);
+
   return (
     <header className="h-16 bg-white border-b border-gray-primary mb-8">
       <div className="container mx-auto max-w-screen-lg h-full">
@@ -79,6 +81,7 @@ export default function Header() {
               <>
                 <Link to={ROUTES.LOGIN}>
                   <button
+                    data-testid="login"
                     type="button"
                     className="bg-blue-medium font-bold text-sm rounded text-white w-20 h-8"
                   >

@@ -36,6 +36,7 @@ export default function App() {
               loggedInPath={ROUTES.DASHBOARD}
               path={ROUTES.LOGIN}
               component={Login}
+              exact
             />
 
             <IsUserLoggedIn
@@ -43,25 +44,15 @@ export default function App() {
               loggedInPath={ROUTES.DASHBOARD}
               path={ROUTES.SIGN_UP}
               component={Signup}
+              exact
             />
 
-            <Route component={Profile} path={ROUTES.PROFILE} />
+            <Route component={Profile} path={ROUTES.PROFILE} exact />
 
-            <Route path={ROUTES.NOT_FOUND} component={NotFound} />
+            <Route component={NotFound} />
           </Switch>
         </Suspense>
       </Router>
     </UserContext.Provider>
   );
 }
-
-// 9:56:46
-
-// SEMANTIC COMMIT MESSAGES
-// chore: add Oyster build script
-// docs: explain hat wobble
-// feat: add beta sequence
-// fix: remove broken confirmation message
-// refactor: share logic between 4d3d3d3 and flarhgunnstow
-// style: convert tabs to spaces
-// test: ensure Tayne retains clothing
