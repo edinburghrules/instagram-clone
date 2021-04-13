@@ -20,6 +20,7 @@ export default function SignUp() {
     event.preventDefault();
 
     const usernameExists = await doesUsernameExist(username);
+
     if (!usernameExists) {
       try {
         const createdUserResult = await firebase
