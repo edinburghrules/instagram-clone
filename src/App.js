@@ -19,6 +19,7 @@ const NotFound = lazy(() => import("./pages/not-found"));
 //   to the user object.
 export default function App() {
   const { user } = useAuthListener();
+
   return (
     <UserContext.Provider value={{ user }}>
       <Router>
