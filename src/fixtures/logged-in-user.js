@@ -3,7 +3,7 @@ export default {
   username: "steve",
   fullName: "steve jobs",
   emailAddress: "stevejob@apple.com",
-  following: [],
+  following: ["3"],
   followers: [],
   dateCreated: 1617802863559,
 };

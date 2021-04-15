@@ -21,8 +21,8 @@ export default function Header({
   setFollowerCount,
 }) {
   const { user } = useUser();
+  const showFollowProfileButton = profile && profile.userId !== user.userId;
   const [isFollowingProfile, setIsFollowingProfile] = useState(false);
-  const showFollowProfileButton = profile.userId !== user.userId;
 
   async function handleToggleFollowProfile() {
     setIsFollowingProfile((following) => !following);
@@ -56,6 +56,7 @@ export default function Header({
       );
       setIsFollowingProfile(isFollowing);
     }
+
     if (user && profile.userId) {
       isLoggedInUserFollowingProfile();
     }
@@ -79,6 +80,7 @@ export default function Header({
           <p className="text-2xl mr-4">{profile.username}</p>
           {showFollowProfileButton && (
             <button
+              data-testid="profile-follow-btn"
               className="bg-blue-medium font-bold text-sm rounded text-white w-20 h-8"
               type="button"
               onClick={handleToggleFollowProfile}

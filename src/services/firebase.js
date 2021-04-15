@@ -61,7 +61,10 @@ export async function getProfilePhotosByUserId(userId) {
       .where("userId", "==", userId)
       .get();
 
-    return result.docs.map((doc) => ({ docId: doc.id, ...doc.data() }));
+    return result.docs.map((doc) => ({
+      docId: doc.id,
+      ...doc.data(),
+    }));
   } catch (error) {
     console.log("Error getting photos: ", error);
   }
@@ -79,7 +82,9 @@ export async function getSuggestedProfiles(userId) {
       .where("userId", "!=", userId)
       .get();
 
-    querySnapshot.forEach((doc) => allProfiles.push(doc.data()));
+    querySnapshot.forEach((doc) =>
+      allProfiles.push(doc.data())
+    );
 
     const suggestedProfiles = allProfiles.filter(
       (profile) => !profile.followers.includes(userId)
@@ -130,9 +135,15 @@ export async function updateFollowedProfilesFollowers(
           ? FieldValue.arrayRemove(userId)
           : FieldValue.arrayUnion(userId),
       });
-    console.log("Successfully updated document: ", profileId);
+    console.log(
+      "Successfully updated document: ",
+      profileId
+    );
   } catch (error) {
-    console.log("There has been an error updating document: ", error);
+    console.log(
+      "There has been an error updating document: ",
+      error
+    );
   }
 }
 
@@ -149,7 +160,10 @@ export async function getPhotos(userId, userFollowing) {
       .get();
 
     result.forEach((doc) =>
-      userFollowedPhotos.push({ ...doc.data(), docId: doc.id })
+      userFollowedPhotos.push({
+        ...doc.data(),
+        docId: doc.id,
+      })
     );
 
     userFollowedPhotos = await Promise.all(
@@ -160,7 +174,9 @@ export async function getPhotos(userId, userFollowing) {
           userLikedPhoto = true;
         }
 
-        const { username } = await getUserByUserId(photo.userId);
+        const { username } = await getUserByUserId(
+          photo.userId
+        );
 
         return {
           username,
@@ -178,7 +194,11 @@ export async function getPhotos(userId, userFollowing) {
 
 // Toggle liked on a post, if liked is true remove userId to likes array,
 // if liked is false add userId from likes array
-export async function updateUserLikedPhoto(docId, userId, liked) {
+export async function updateUserLikedPhoto(
+  docId,
+  userId,
+  liked
+) {
   try {
     await firebase
       .firestore()
@@ -195,7 +215,10 @@ export async function updateUserLikedPhoto(docId, userId, liked) {
 }
 
 // Add comment to post
-export async function updateUserCommentedPhoto(docId, newComment) {
+export async function updateUserCommentedPhoto(
+  docId,
+  newComment
+) {
   try {
     await firebase
       .firestore()
@@ -210,7 +233,10 @@ export async function updateUserCommentedPhoto(docId, newComment) {
 }
 
 // Check if logged in user is following this profile and return either true or false.
-export async function getIsLoggedInUserFollowingProfile(userId, profileId) {
+export async function getIsLoggedInUserFollowingProfile(
+  userId,
+  profileId
+) {
   try {
     const result = await firebase
       .firestore()
@@ -219,7 +245,9 @@ export async function getIsLoggedInUserFollowingProfile(userId, profileId) {
       .get();
 
     if (result.exists) {
-      return result.data().following.includes(profileId) ? true : false;
+      return result.data().following.includes(profileId)
+        ? true
+        : false;
     }
   } catch (error) {
     console.log("Error: ", error);

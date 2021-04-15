@@ -1,3 +1,4 @@
+import { set } from "date-fns";
 import { useState, useEffect } from "react";
 import useUser from "../hooks/use-user";
 import { getPhotos } from "../services/firebase";
@@ -28,8 +29,6 @@ export default function usePhotos() {
         });
 
         setPhotos(userFollowedPhotos);
-      } else {
-        setPhotos([]);
       }
     }
     getTimelinePhotos();
